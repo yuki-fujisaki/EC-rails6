@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Public::SessionsController < Devise::SessionsController
+  # [002]アカウント管理機能該当箇所
   before_action :reject_inactive_customer, only: [:create]
 
   # GET /resource/sign_in
@@ -33,6 +34,7 @@ class Public::SessionsController < Devise::SessionsController
     root_path
   end
   
+  # [002]アカウント管理機能該当箇所
   def reject_inactive_customer
     @customer = Customer.find_by(email: params[:customer][:email])
     if @customer
