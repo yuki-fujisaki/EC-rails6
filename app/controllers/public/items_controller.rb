@@ -1,4 +1,5 @@
 class Public::ItemsController < ApplicationController
+  # [003]商品登録機能該当箇所
   def index
     @genres = Genre.only_active
     if params[:genre_id]
@@ -7,6 +8,8 @@ class Public::ItemsController < ApplicationController
     else
       all_items = Item.where_genre_active.includes(:genre)
     end
+    # [003]ページネーションは必須ではない
+    # @items = Item.all でもOK
     @items = all_items.page(params[:page]).per(12)
     @all_items_count = all_items.count
   end

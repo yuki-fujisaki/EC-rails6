@@ -1,4 +1,12 @@
-<%= form_for(item, url: url) do |f| %>
+<%#
+[003] form withに修正
+基本↓
+form_with model: モデルクラスのインスタンス, url: "パス" do |form|
+ネストの場合↓
+form_with model: [@article, @comment] do |form|
+%>
+
+<%= form_with model: item, url: url do |f| %>
 	<%= render 'layouts/error_messages', resource: item %>
 	<div class="flex">
 		<div>

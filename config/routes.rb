@@ -20,9 +20,9 @@ Rails.application.routes.draw do
     end
   end
   
-  devise_for :customers,skip: [:passwords,], controllers: {
-    registrations: "customers/registrations",
-    sessions: 'customers/sessions'
+  devise_for :customers, skip: [:passwords,], controllers: {
+    sessions: 'public/sessions',
+    registrations: 'public/registrations'
   }
   # [001]以下を編集　skipを追記
   # devise_for :customers, controllers: {

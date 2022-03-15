@@ -15,6 +15,8 @@
 			<div class="items">
 				<% @items.each do |item| %>
 					<%= link_to item_path(item) do %>
+					  <%# [003] get_imageはモデルで作ったメソッド %>
+						<%# get_image使わないなら image_tag item.image, size: "300x300" %>
 						<%= image_tag item.get_image, format: "jpeg", fallback: "no-image.png" %>
 						<h5><%= item.genre.name %></h5>
 						<p><%= item.name %></p>

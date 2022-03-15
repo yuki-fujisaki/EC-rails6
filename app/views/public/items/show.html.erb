@@ -24,13 +24,17 @@
 				<% if customer_signed_in? %>
 					<% cart_item = current_customer.has_in_cart(@item) %>
 					<% if cart_item %>
-						<%= form_for [@item, cart_item] do |f| %>
+					  <%#[003]form_withに書き換え%>
+						<%# form_for [@item, cart_item] do |f| %>
+						<%= form_with model: [@item, cart_item] do |f| %>
 							<p>こちらの商品は、既にカートに入っています。</p>
 							<%= f.select :amount, [*(1..10)] %>
 							<%= f.submit "数量変更", class: "btn btn-primary" %>
 						<% end %>
 					<% elsif @item.is_active? %>
-						<%= form_for [@item, @cart_item] do |f| %>
+						<%#[003]form_withに書き換え%>
+						<%# form_for [@item, @cart_item] do |f| %>
+						<%= form_with model: [@item, @cart_item] do |f| %>
 							<p>数量を選択して下さい。</p>
 							<%= f.select :amount, [*(1..10)], {selected: 1} %>
 							<%= f.submit "カートに入れる", class: "btn btn-primary" %>

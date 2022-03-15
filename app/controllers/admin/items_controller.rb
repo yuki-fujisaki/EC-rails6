@@ -11,6 +11,8 @@ class Admin::ItemsController < ApplicationController
       @genre = Genre.find(params[:genre_id])
       all_items = @genre.items
     else
+      # [003] includeは N+1問題を解決するもの
+      # モデル名.includes(:関連名) # 関連名はテーブル名ではない（belongs_to のやつはそう）
       all_items = Item.includes(:genre)
     end
     @items = all_items.page(params[:page])
@@ -23,12 +25,15 @@ class Admin::ItemsController < ApplicationController
   end
 
   def show
+    # [003] controllerのensure_itemで使ってるから@item使える
   end
 
   def edit
+    # [003] controllerのensure_itemで使ってるから@item使える
   end
 
   def update
+    # [003] controllerのensure_itemで使ってるから@item使える
     @item.update(item_params) ? (redirect_to admin_item_path(@item)) : (render :edit)
   end
 
