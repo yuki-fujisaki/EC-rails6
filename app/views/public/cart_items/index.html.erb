@@ -24,22 +24,35 @@
 						<td><%= link_to item.name, item_path(item) %></td>
 						<td class="text-right"><%= item.with_tax_price %>円</td>
 						<td>
-							<%= form_for [item, cart_item] do |f| %>
+						<%# [004]form_withに書き換え%>
+						<%# 以下のform_withはネストしている場合に使える書き方%>
+						<%# Itemモデルで@item = Item.find(params[:item_id])を定義しており、値を取得できている%>
+							<%= form_with model: [item, cart_item] do |f| %>
+							<%# 旧NaganoCakeでは form_with model: cart_item, url: "/cart_items/:id", local:true do |f| を使っている%>
 								<%= f.select :amount, [*(1..10)], {include_blank: false}, id: "cart_item_amount_#{cart_item.id}" %>
 								<%= f.submit "変更", class: "btn btn-primary", id: "submit_for_cart_item_#{cart_item.id}" %>
+								<%#[004]ヒントでは以下のどちらかが必要%>
+								<%# 以下はネストしたform_withを使わない場合にitem_idを送るやり方%>
+								<%# f.hidden_field :item_id, :value => cart_item.item_id %>
+								<%# f.hidden_field :item_id, :value cart_item_id %>
 							<% end %>
 						</td>
+						<%# cart_itemにはcurrent_customerの値が入っているため、subtotalでも計算できる%>
 						<td class="text-right"><%= cart_item.subtotal %>円</td>
 						<td class="text-center">
 							<%= link_to "削除", item_cart_item_path(item_id: item.id, id: cart_item.id), method: :delete, "data-confirm" => "#{item.name}をカートから削除します。よろしいでしょうか？", class: "btn btn-danger", id: "destroy_cart_item_#{cart_item.id}" %>
 						</td>
 					</tr>
 				<% end %>
+
 				<tr>
 					<td></td>
 					<td><%= link_to "買い物を続ける", root_path, class: "btn btn-primary" %></td>
 					<td></td>
 					<td class="text-right">合計金額</td>
+					<%# 受講生に伝える場合はsum(&:)は全部のカラムを足し合わせる便利なメソッドと伝える%>
+					<%# もしくはsumとループを使って足し合わせる方法もあると伝える%>
+					<%# 詳しくは→ https://kenzoblog.vercel.app/posts/rails-scope-distinct %>
 					<td class="text-right bold"><%= @cart_items.sum(&:subtotal) %>円</td>
 					<td></td>
 				</tr>
@@ -55,3 +68,43 @@
 		</div>
 	<% end %>
 </section>
+
+<%# [004]旧NaganoCakeでは以下の記述 %>
+sum = 0
+@cart_items.each do |cart_item|
+	if current_end_user.id == cart_item.end_user_id
+		<div>
+				cart_item.item.name<br>
+				attachment_image_tag cart_item.item, :image, size:'200x200<br>
+				@cart_sum = cart_item.item.tax_excluded_price* 1.
+				税込価格： @cart_sum.round円<br>
+				個数： cart_item.amount個<br>
+				@cart_sum *= cart_item.amount
+				小計： @cart_sum.round円<br>
+				form_with model: cart_item, url: "/cart_items/:id", local:true do |f|
+						f.label :数量変更
+						f.text_field :amount
+						f.hidden_field :item_id, :value => cart_item.item_id
+				f.submit "更新"
+				<br> link_to '削除する', cart_item_path(cart_item), method: :delete, data: { confirm: '本当に消しますか？' 
+				end
+		</div>
+        sum += @cart_sum
+  end
+end
+
+<div>
+合計金額： sum.round円
+</div>
+<div>
+
+</div>
+<div>
+ link_to 'カートを空にする', destroy_all_cart_items_path, method: :delete, data: { confirm: '本当に消しますか？' 
+</div>
+<div>
+ link_to '買い物を続ける', root_path
+</div>
+<div>
+ link_to '情報入力に進む', new_order_path
+</div>

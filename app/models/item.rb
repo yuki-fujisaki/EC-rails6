@@ -23,7 +23,8 @@ class Item < ApplicationRecord
       image
     end
   end
-    
+
+  # [004]カート機能該当箇所 CartItemモデルでのsubtotalと組み合わせて使う
   def with_tax_price
     (price * 1.1).ceil
     # ceilは切り上げ、floorが切り捨て、roundが四捨五入
