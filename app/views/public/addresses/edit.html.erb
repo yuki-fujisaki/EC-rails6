@@ -1,4 +1,5 @@
 <section class="inner">
 	<h2 class="section-ttl">配送先編集</h2>
+	<%# [005] この@addressはindexのものとは違い、before actionの中の@address = @addresses.find_by(id: params[:id])%>
   <%= render 'form', address: @address, submit: '更新' %>
 </section>

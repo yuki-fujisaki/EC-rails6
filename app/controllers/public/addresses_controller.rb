@@ -4,6 +4,7 @@ class Public::AddressesController < ApplicationController
 
   def index
     @addresses = current_customer.addresses
+    # [005] ensure_addressの@addressとは違い以下に定義している
     @address = Address.new
   end
 
@@ -17,6 +18,8 @@ class Public::AddressesController < ApplicationController
   end
 
   def edit
+    # [005] ensure_addressの以下が使える
+    # @address = @addresses.find_by(id: params[:id])
   end
 
   def update
