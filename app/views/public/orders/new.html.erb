@@ -5,7 +5,8 @@
 			<p><%= flash[:error] %></p>
 		</div>
 	<% end %>
-	<%= form_for(@order, url: orders_confirm_path) do |f| %>
+	<%# [006]form_withに書き換え %>
+	<%= form_with model: @order, url: orders_confirm_path do |f| %>
 		<div class="field mb2">
 			<h3>支払い方法</h3>
 	  	<%= f.radio_button :payment_method, "credit_card", :checked => true %>
