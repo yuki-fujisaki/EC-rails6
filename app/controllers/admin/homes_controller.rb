@@ -51,3 +51,28 @@ class Admin::HomesController < ApplicationController
     end
   end
 end
+
+# [007]旧nagano_cakeでの検索機能実装方法↓
+
+# ①Admin/Itemsコントローラーのindexアクションに以下を記述
+# def index
+#   # @items = Item.all
+#   # Item.rbに上記を記述
+#   @items = Item.search(params[:search])
+# end
+# 
+# ②Itemモデルにserchメソッドを追記
+# 
+# def self.search(search)
+# if search
+#   Item.where(['name LIKE ?', "%#{search}%"])
+# else
+#   Item.all
+# end
+# end
+# 
+# ③Viewにform_withを記述
+# <%= form_with url: admin_items_path :method => 'get' do %>
+#   <%= text_field_tag :search %>
+#   <%= submit_tag 'Search', :name => nil %>
+# <% end %>

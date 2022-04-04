@@ -34,7 +34,8 @@
           <% end %>
         </ul>
         <% if admin_signed_in? %>
-          <%= form_tag(admin_search_path, method: :get) do %>
+        <%#[007]form_withに書き換え %>
+          <%= form_with url: admin_search_path, method: :get do %>
             <%= text_field_tag "search[content]", "", :placeholder =>"会員: 姓,名,セイ,メイ / 商品: 商品名" %>
             <%= select_tag "search[model]", options_for_select({ "会員" => "customer", "商品" => "item" }) %>
             <%= select_tag "search[method]", options_for_select({ "部分一致" => "partial", "前方一致" => "forward", "後方一致" => "backward", "完全一致" => "perfect" }) %>
