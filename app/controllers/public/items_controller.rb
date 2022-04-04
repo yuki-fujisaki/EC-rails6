@@ -1,5 +1,6 @@
 class Public::ItemsController < ApplicationController
   # [003]商品登録機能該当箇所
+  # [008]ジャンル検索機能該当箇所
   def index
     @genres = Genre.only_active
     if params[:genre_id]
